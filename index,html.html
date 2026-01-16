@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Owais Trading Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      margin:0;
+      background:#0b0f17;
+      color:white;
+      font-family:Segoe UI, Arial;
+    }
+
+    .container {
+      display:flex;
+      height:100vh;
+    }
+
+    .sidebar {
+      width:240px;
+      background:#0f1c2f;
+      padding:20px;
+    }
+
+    .main {
+      flex:1;
+      padding:30px;
+    }
+
+    h1 {
+      margin-bottom:30px;
+    }
+
+    .cards {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+    }
+
+    .card {
+      background:#111827;
+      padding:25px;
+      border-radius:15px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .card h3 {
+      color:#9ca3af;
+      font-size:14px;
+      margin-bottom:10px;
+      text-transform:uppercase;
+    }
+
+    .card h2 {
+      font-size:28px;
+      margin:0;
+      color:#22c55e;
+    }
+
+    .red { color:#ef4444; }
+    .blue { color:#38bdf8; }
+    .yellow { color:#fbbf24; }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Owais</h2>
+    <p>📊 Dashboard</p>
+    <p>📈 Performance</p>
+    <p>💰 Profit</p>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <h1>Trading Dashboard</h1>
+
+    <!-- KPI Cards -->
+    <div class="cards">
+
+      <div class="card">
+        <h3>Total Trades</h3>
+        <h2 id="totalTrades">Loading...</h2>
+      </div>
+
+      <div class="card">
+        <h3>Winning Trades</h3>
+        <h2 id="winningTrades" class="blue">Loading...</h2>
+      </div>
+
+      <div class="card">
+        <h3>Losing Trades</h3>
+        <h2 id="losingTrades" class="red">Loading...</h2>
+      </div>
+
+      <div class="card">
+        <h3>Brokerage</h3>
+        <h2 id="brokerage" class="yellow">Loading...</h2>
+      </div>
+
+      <div class="card">
+        <h3>P/L Before Brokerage</h3>
+        <h2 id="grossPL">Loading...</h2>
+      </div>
+
+      <div class="card">
+        <h3>Total P/L</h3>
+        <h2 id="netPL">Loading...</h2>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzBFtVc9GEM7K5buIJCFDbC6Gh6Il-gg5xN0a1Bz7fHLWMRAI4SfCi782Q9joEBw/pub?output=csv";
+fetch(sheetURL)
+  .then(res => res.text())
+  .then(csv => {
+    const rows = csv.split("\n").slice(1);
+
+    let totalTrades = 0;
+    let wins = 0;
+    let losses = 0;
+    let brokerage = 0;
+    let grossPL = 0;
+    let netPL = 0;
+
+    rows.forEach(row => {
+      const cols = row.split(",");
+
+      let plBefore = parseFloat(cols[11]); // Column L
+      let brok = parseFloat(cols[12]);     // Column M
+      let total = parseFloat(cols[13]);    // Column N
+
+      if(!isNaN(total)){
+        totalTrades++;
+        netPL += total;
+        if(total > 0) wins++;
+        if(total < 0) losses++;
+      }
+
+      if(!isNaN(plBefore)) grossPL += plBefore;
+      if(!isNaN(brok)) brokerage += brok;
+    });
+
+    document.getElementById("totalTrades").innerText = totalTrades;
+    document.getElementById("winningTrades").innerText = wins;
+    document.getElementById("losingTrades").innerText = losses;
+    document.getElementById("brokerage").innerText = "₹ " + brokerage.toFixed(2);
+    document.getElementById("grossPL").innerText = "₹ " + grossPL.toFixed(2);
+    document.getElementById("netPL").innerText = "₹ " + netPL.toFixed(2);
+  });
+</script>
+
+</body>
+</html>
