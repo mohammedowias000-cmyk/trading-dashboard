@@ -1,178 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Owais Trading Journal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>Owais Trading Journal</title>
 
-  <style>
-    body {
-      margin: 0;
-      background: radial-gradient(circle at top, #0c1a2b, #000);
-      font-family: Segoe UI, Arial, sans-serif;
-      color: white;
-    }
+<style>
+body{
+    margin:0;
+    font-family:Segoe UI, Arial;
+    background: radial-gradient(circle at top, #0c1a2b, #000);
+    color:white;
+}
 
-    .container {
-      padding: 40px;
-      max-width: 1300px;
-      margin: auto;
-    }
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:40px;
+}
 
-    h1 {
-      text-align: center;
-      font-size: 42px;
-      color: #7efcff;
-      margin-bottom: 5px;
-    }
+h1{
+    text-align:center;
+    font-size:48px;
+    color:#7fffd4;
+    margin-bottom:10px;
+}
 
-    .subtitle {
-      text-align: center;
-      color: #aaa;
-      margin-bottom: 40px;
-      font-size: 18px;
-    }
+.subtitle{
+    text-align:center;
+    opacity:.8;
+    margin-bottom:50px;
+    font-size:18px;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-    }
+.grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap:25px;
+}
 
-    .card {
-      background: linear-gradient(145deg, #081624, #0d223a);
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 0 25px rgba(0,255,255,0.08);
-      border: 1px solid rgba(0,255,255,0.15);
-    }
+.card{
+    background:linear-gradient(145deg,#07172a,#020b18);
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 0 40px rgba(0,255,255,.08);
+    border:1px solid rgba(0,255,255,.08);
+}
 
-    .card h3 {
-      color: #aaa;
-      margin-bottom: 10px;
-      font-weight: 500;
-    }
+.card h3{
+    margin:0;
+    font-weight:500;
+    opacity:.8;
+}
 
-    .value {
-      font-size: 32px;
-      font-weight: bold;
-      color: #3cffb0;
-    }
+.value{
+    margin-top:15px;
+    font-size:36px;
+    font-weight:700;
+    color:#00ffcc;
+}
 
-    .loss { color: #ff5c5c; }
-    .broker { color: #ffb84d; }
-
-    footer {
-      text-align: center;
-      margin-top: 50px;
-      color: #777;
-      font-size: 14px;
-    }
-  </style>
+.loss{ color:#ff4d4d; }
+.broker{ color:#ffb347; }
+</style>
 </head>
 
 <body>
 
 <div class="container">
-  <h1>Owais Trading Journal</h1>
-  <div class="subtitle">
-    A disciplined trader is stronger than an emotional one.  
-    And Allah loves those who control their nafs.
-  </div>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Starting Capital</h3>
-      <div class="value" id="startingCapital">₹ 0</div>
-    </div>
+<h1>Owais Trading Journal</h1>
+<div class="subtitle">
+A disciplined trader is stronger than an emotional one.<br>
+And Allah loves those who control their nafs.
+</div>
 
-    <div class="card">
-      <h3>Total Capital Growth</h3>
-      <div class="value" id="totalCapital">₹ 0</div>
-    </div>
+<div class="grid">
 
-    <div class="card">
-      <h3>Total Trades</h3>
-      <div class="value" id="totalTrades">0</div>
-    </div>
+<div class="card">
+<h3>Starting Capital</h3>
+<div class="value" id="startingCapital">₹ 0</div>
+</div>
 
-    <div class="card">
-      <h3>Winning Trades</h3>
-      <div class="value" id="winningTrades">0</div>
-    </div>
+<div class="card">
+<h3>Total Capital Growth</h3>
+<div class="value" id="totalCapital">₹ 0</div>
+</div>
 
-    <div class="card">
-      <h3>Losing Trades</h3>
-      <div class="value loss" id="losingTrades">0</div>
-    </div>
+<div class="card">
+<h3>Total Trades</h3>
+<div class="value" id="totalTrades">0</div>
+</div>
 
-    <div class="card">
-      <h3>P/L Before Brokerage</h3>
-      <div class="value" id="grossPL">₹ 0</div>
-    </div>
+<div class="card">
+<h3>Winning Trades</h3>
+<div class="value" id="wins">0</div>
+</div>
 
-    <div class="card">
-      <h3>Brokerage</h3>
-      <div class="value broker" id="brokerage">₹ 0</div>
-    </div>
+<div class="card">
+<h3>Losing Trades</h3>
+<div class="value loss" id="losses">0</div>
+</div>
 
-    <div class="card">
-      <h3>P/L After Brokerage</h3>
-      <div class="value" id="netPL">₹ 0</div>
-    </div>
-  </div>
+<div class="card">
+<h3>P/L Before Brokerage</h3>
+<div class="value" id="grossPL">₹ 0</div>
+</div>
 
-  <footer>
-    © 2026 Owais Trading Journal — Live Connected to Google Sheets
-  </footer>
+<div class="card">
+<h3>Brokerage</h3>
+<div class="value broker" id="brokerage">₹ 0</div>
+</div>
+
+<div class="card">
+<h3>P/L After Brokerage</h3>
+<div class="value" id="netPL">₹ 0</div>
+</div>
+
+</div>
 </div>
 
 <script>
+// 🔗 Your Google Sheet CSV link
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzBFtVc9GEM7K5buIJCFDbC6Gh6Il-gg5xN0a1Bz7fHLWMRAI4SfCi782Q9joEBw/pub?output=csv";
 
+// Starting capital
 const startingCapital = 10000;
 
-fetch(sheetURL)
-  .then(res => res.text())
-  .then(csv => {
-    const rows = csv.trim().split("\n").slice(1);
+document.getElementById("startingCapital").innerText = "₹ " + startingCapital.toLocaleString();
 
-    let totalTrades = 0;
-    let wins = 0;
-    let losses = 0;
-    let brokerage = 0;
-    let grossPL = 0;
+let totalTrades = 0;
+let wins = 0;
+let losses = 0;
+let grossPL = 0;
+let brokerage = 0;
+let totalCapital = startingCapital;
+
+fetch(sheetURL)
+.then(res => res.text())
+.then(csv => {
+
+    const rows = csv.split("\n").slice(1);
 
     rows.forEach(row => {
-      const cols = row.split(",");
+        const cols = row.split(",");
 
-      const pl = parseFloat(cols[13]) || 0;   // Total P/L
-      const brok = parseFloat(cols[12]) || 0; // Brokerage
+        // Adjust column numbers if needed
+        let plBefore = parseFloat(cols[11]);   // Column L
+        let brok = parseFloat(cols[12]);       // Column M
+        let total = parseFloat(cols[13]);      // Column N
 
-      if (!isNaN(pl)) {
-        totalTrades++;
+        if(!isNaN(total)){
+            totalTrades++;
+            grossPL += plBefore;
+            brokerage += brok;
+            totalCapital += total;
 
-        grossPL += (pl + brok);
-        brokerage += brok;
-
-        if (pl > 0) wins++;
-        if (pl < 0) losses++;
-      }
+            if(total > 0) wins++;
+            if(total < 0) losses++;
+        }
     });
 
-    const netPL = grossPL - brokerage;
-    const totalCapital = startingCapital + netPL;
-
-    document.getElementById("startingCapital").innerText = "₹ " + startingCapital.toFixed(2);
     document.getElementById("totalTrades").innerText = totalTrades;
-    document.getElementById("winningTrades").innerText = wins;
-    document.getElementById("losingTrades").innerText = losses;
-    document.getElementById("brokerage").innerText = "₹ " + brokerage.toFixed(2);
+    document.getElementById("wins").innerText = wins;
+    document.getElementById("losses").innerText = losses;
+
     document.getElementById("grossPL").innerText = "₹ " + grossPL.toFixed(2);
-    document.getElementById("netPL").innerText = "₹ " + netPL.toFixed(2);
+    document.getElementById("brokerage").innerText = "₹ " + brokerage.toFixed(2);
+    document.getElementById("netPL").innerText = "₹ " + (grossPL - brokerage).toFixed(2);
     document.getElementById("totalCapital").innerText = "₹ " + totalCapital.toFixed(2);
-  })
-  .catch(err => console.error("Sheet Error:", err));
+});
 </script>
 
 </body>
