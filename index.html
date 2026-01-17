@@ -30,11 +30,13 @@
     .menu div {
       margin: 15px 0;
       color: #aaa;
+      font-size: 15px;
     }
 
     .main {
       flex: 1;
       padding: 40px;
+      overflow-y: auto;
     }
 
     h1 {
@@ -56,7 +58,7 @@
 
     .card h3 {
       color: #aaa;
-      font-size: 14px;
+      font-size: 13px;
       margin-bottom: 15px;
       letter-spacing: 1px;
     }
@@ -90,7 +92,7 @@
 
       <div class="card">
         <h3>STARTING CAPITAL</h3>
-        <div class="value" id="startingCapital">₹ 10000</div>
+        <div class="value">₹ 10,000</div>
       </div>
 
       <div class="card">
@@ -134,11 +136,7 @@
 </div>
 
 <script>
-
-const startingCapital = 10000;
-
-// 🔴 PASTE YOUR GOOGLE SHEET CSV LINK BELOW
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzBFtVc9GEM7K5buIJCFDbC6Gh6Il-gg5xN0a1Bz7fHLWMRAI4SfCi782Q9joEBw/pubhtml";
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzBFtVc9GEM7K5buIJCFDbC6Gh6Il-gg5xN0a1Bz7fHLWMRAI4SfCi782Q9joEBw/pubhtml";   // Google Sheet CSV link
 
 let totalTrades = 0;
 let wins = 0;
@@ -146,12 +144,11 @@ let losses = 0;
 let brokerage = 0;
 let grossPL = 0;
 let netPL = 0;
-let totalCapital = startingCapital;
+let totalCapital = 10000;
 
 fetch(sheetURL)
   .then(res => res.text())
   .then(csv => {
-
     const rows = csv.split("\n").slice(1);
 
     rows.forEach(row => {
@@ -171,10 +168,7 @@ fetch(sheetURL)
 
       if (!isNaN(plBefore)) grossPL += plBefore;
       if (!isNaN(brok)) brokerage += brok;
-
-      if (!isNaN(capital)) {
-        totalCapital = capital;
-      }
+      if (!isNaN(capital)) totalCapital = capital;
     });
 
     document.getElementById("totalTrades").innerText = totalTrades;
@@ -186,7 +180,6 @@ fetch(sheetURL)
     document.getElementById("netPL").innerText = "₹ " + netPL.toFixed(2);
     document.getElementById("totalCapital").innerText = "₹ " + totalCapital.toFixed(2);
   });
-
 </script>
 
 </body>
