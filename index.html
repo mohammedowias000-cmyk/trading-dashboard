@@ -7,9 +7,9 @@
   <style>
     body {
       margin: 0;
-      background: #0b0f17;
-      color: white;
       font-family: Segoe UI, Arial;
+      background: radial-gradient(circle at top, #0c1a2b, #000);
+      color: white;
     }
 
     .container {
@@ -18,18 +18,18 @@
     }
 
     .sidebar {
-      width: 240px;
-      background: #0f1c2f;
+      width: 230px;
+      background: #081424;
       padding: 20px;
     }
 
     .sidebar h2 {
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
-    .sidebar p {
-      margin: 20px 0;
-      color: #ccc;
+    .menu div {
+      margin: 15px 0;
+      color: #aaa;
     }
 
     .main {
@@ -38,33 +38,33 @@
     }
 
     h1 {
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
-    .cards {
+    .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 25px;
     }
 
     .card {
-      background: #101b2d;
-      border-radius: 15px;
+      background: linear-gradient(145deg, #0d1e33, #07111f);
+      border-radius: 18px;
       padding: 25px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      box-shadow: 0 0 30px rgba(0,255,150,0.05);
     }
 
     .card h3 {
       color: #aaa;
-      margin-bottom: 15px;
       font-size: 14px;
-      text-transform: uppercase;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
     }
 
-    .card p {
-      font-size: 28px;
+    .value {
+      font-size: 32px;
+      color: #00ff9c;
       font-weight: bold;
-      color: #00ff88;
     }
   </style>
 </head>
@@ -72,113 +72,121 @@
 <body>
 
 <div class="container">
+
   <div class="sidebar">
     <h2>Owais</h2>
-    <p>📊 Dashboard</p>
-    <p>📈 Performance</p>
-    <p>💰 Profit</p>
-    <p>⚙ Settings</p>
+    <div class="menu">
+      <div>📊 Dashboard</div>
+      <div>📈 Performance</div>
+      <div>💰 Profit</div>
+      <div>⚙ Settings</div>
+    </div>
   </div>
 
   <div class="main">
     <h1>Trading Dashboard</h1>
 
-    <div class="cards">
+    <div class="grid">
+
       <div class="card">
-        <h3>Starting Capital</h3>
-        <p id="startingCapital">Loading...</p>
+        <h3>STARTING CAPITAL</h3>
+        <div class="value" id="startingCapital">₹ 10000</div>
       </div>
 
       <div class="card">
-        <h3>Total Trades</h3>
-        <p id="totalTrades">Loading...</p>
+        <h3>TOTAL TRADES</h3>
+        <div class="value" id="totalTrades">0</div>
       </div>
 
       <div class="card">
-        <h3>Winning Trades</h3>
-        <p id="winningTrades">Loading...</p>
+        <h3>WINNING TRADES</h3>
+        <div class="value" id="winningTrades">0</div>
       </div>
 
       <div class="card">
-        <h3>Losing Trades</h3>
-        <p id="losingTrades">Loading...</p>
+        <h3>LOSING TRADES</h3>
+        <div class="value" id="losingTrades">0</div>
       </div>
 
       <div class="card">
-        <h3>Brokerage</h3>
-        <p id="brokerage">Loading...</p>
+        <h3>BROKERAGE</h3>
+        <div class="value" id="brokerage">₹ 0</div>
       </div>
 
       <div class="card">
-        <h3>P/L Before Brokerage</h3>
-        <p id="grossPL">Loading...</p>
+        <h3>P/L BEFORE BROKERAGE</h3>
+        <div class="value" id="grossPL">₹ 0</div>
       </div>
 
       <div class="card">
-        <h3>Total P/L</h3>
-        <p id="netPL">Loading...</p>
+        <h3>TOTAL P/L</h3>
+        <div class="value" id="netPL">₹ 0</div>
       </div>
 
       <div class="card">
-        <h3>Total Capital Growth</h3>
-        <p id="totalCapital">Loading...</p>
+        <h3>TOTAL CAPITAL GROWTH</h3>
+        <div class="value" id="totalCapital">₹ 10000</div>
       </div>
+
     </div>
   </div>
+
 </div>
 
 <script>
-  // ===== CONFIG =====
-  const startingCapital = 10000;
 
-  // 👇 Replace with your Google Sheet CSV link
-  const sheetCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzBFtVc9GEM7K5buIJCFDbC6Gh6Il-gg5xN0a1Bz7fHLWMRAI4SfCi782Q9joEBw/pubhtml";
+const startingCapital = 10000;
 
-  // ==================
+// 🔴 PASTE YOUR GOOGLE SHEET CSV LINK BELOW
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzBFtVc9GEM7K5buIJCFDbC6Gh6Il-gg5xN0a1Bz7fHLWMRAI4SfCi782Q9joEBw/pubhtml";
 
-  let totalTrades = 0;
-  let wins = 0;
-  let losses = 0;
-  let brokerage = 0;
-  let grossPL = 0;
-  let netPL = 0;
-  let totalCapital = startingCapital;
+let totalTrades = 0;
+let wins = 0;
+let losses = 0;
+let brokerage = 0;
+let grossPL = 0;
+let netPL = 0;
+let totalCapital = startingCapital;
 
-  fetch(sheetCSV)
-    .then(res => res.text())
-    .then(csv => {
-      const rows = csv.split("\n").slice(1);
+fetch(sheetURL)
+  .then(res => res.text())
+  .then(csv => {
 
-      rows.forEach(row => {
-        const cols = row.split(",");
+    const rows = csv.split("\n").slice(1);
 
-        let plBefore = parseFloat(cols[11]);  // Column L
-        let brok = parseFloat(cols[12]);      // Column M
-        let total = parseFloat(cols[13]);     // Column N
+    rows.forEach(row => {
+      const cols = row.split(",");
 
-        if (!isNaN(total)) {
-          totalTrades++;
-          netPL += total;
+      let plBefore = parseFloat(cols[11]); // Column L
+      let brok = parseFloat(cols[12]);     // Column M
+      let total = parseFloat(cols[13]);    // Column N
+      let capital = parseFloat(cols[15]);  // Column P
 
-          if (total > 0) wins++;
-          if (total < 0) losses++;
-        }
+      if (!isNaN(total)) {
+        totalTrades++;
+        netPL += total;
+        if (total > 0) wins++;
+        if (total < 0) losses++;
+      }
 
-        if (!isNaN(plBefore)) grossPL += plBefore;
-        if (!isNaN(brok)) brokerage += brok;
-      });
+      if (!isNaN(plBefore)) grossPL += plBefore;
+      if (!isNaN(brok)) brokerage += brok;
 
-      totalCapital = startingCapital + netPL;
-
-      document.getElementById("startingCapital").innerText = "₹ " + startingCapital.toFixed(2);
-      document.getElementById("totalTrades").innerText = totalTrades;
-      document.getElementById("winningTrades").innerText = wins;
-      document.getElementById("losingTrades").innerText = losses;
-      document.getElementById("brokerage").innerText = "₹ " + brokerage.toFixed(2);
-      document.getElementById("grossPL").innerText = "₹ " + grossPL.toFixed(2);
-      document.getElementById("netPL").innerText = "₹ " + netPL.toFixed(2);
-      document.getElementById("totalCapital").innerText = "₹ " + totalCapital.toFixed(2);
+      if (!isNaN(capital)) {
+        totalCapital = capital;
+      }
     });
+
+    document.getElementById("totalTrades").innerText = totalTrades;
+    document.getElementById("winningTrades").innerText = wins;
+    document.getElementById("losingTrades").innerText = losses;
+
+    document.getElementById("brokerage").innerText = "₹ " + brokerage.toFixed(2);
+    document.getElementById("grossPL").innerText = "₹ " + grossPL.toFixed(2);
+    document.getElementById("netPL").innerText = "₹ " + netPL.toFixed(2);
+    document.getElementById("totalCapital").innerText = "₹ " + totalCapital.toFixed(2);
+  });
+
 </script>
 
 </body>
