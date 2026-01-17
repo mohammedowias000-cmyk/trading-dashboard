@@ -1,74 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Owais Trading Dashboard</title>
+<meta charset="UTF-8">
+<title>Owais Trading Dashboard</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Segoe UI, Arial;
-      background: radial-gradient(circle at top, #0c1a2b, #000);
-      color: white;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Segoe UI, Arial;
+  background: radial-gradient(circle at top, #0c1a2b, #000);
+  color: white;
+}
 
-    .container {
-      display: flex;
-      height: 100vh;
-    }
+.container {
+  display: flex;
+  height: 100vh;
+}
 
-    .sidebar {
-      width: 230px;
-      background: #081424;
-      padding: 20px;
-    }
+.sidebar {
+  width: 230px;
+  background: #081424;
+  padding: 20px;
+}
 
-    .sidebar h2 {
-      margin-bottom: 30px;
-    }
+.sidebar h2 {
+  margin-bottom: 30px;
+}
 
-    .menu div {
-      margin: 15px 0;
-      color: #aaa;
-      font-size: 15px;
-    }
+.menu div {
+  margin: 15px 0;
+  color: #aaa;
+  font-size: 15px;
+}
 
-    .main {
-      flex: 1;
-      padding: 40px;
-      overflow-y: auto;
-    }
+.main {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
 
-    h1 {
-      margin-bottom: 30px;
-    }
+h1 {
+  margin-bottom: 30px;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
-    }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
 
-    .card {
-      background: linear-gradient(145deg, #0d1e33, #07111f);
-      border-radius: 18px;
-      padding: 25px;
-      box-shadow: 0 0 30px rgba(0,255,150,0.05);
-    }
+.card {
+  background: linear-gradient(145deg, #0d1e33, #07111f);
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 0 30px rgba(0,255,150,0.05);
+}
 
-    .card h3 {
-      color: #aaa;
-      font-size: 13px;
-      margin-bottom: 15px;
-      letter-spacing: 1px;
-    }
+.card h3 {
+  color: #aaa;
+  font-size: 13px;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
 
-    .value {
-      font-size: 32px;
-      color: #00ff9c;
-      font-weight: bold;
-    }
-  </style>
+.value {
+  font-size: 32px;
+  color: #00ff9c;
+  font-weight: bold;
+}
+</style>
 </head>
 
 <body>
@@ -136,39 +136,46 @@
 </div>
 
 <script>
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzBFtVc9GEM7K5buIJCFDbC6Gh6Il-gg5xN0a1Bz7fHLWMRAI4SfCi782Q9joEBw/pubhtml";   // Google Sheet CSV link
+// 👉 PUT YOUR GOOGLE SHEET CSV LINK HERE
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzBFtVc9GEM7K5buIJCFDbC6Gh6Il-gg5xN0a1Bz7fHLWMRAI4SfCi782Q9joEBw/pubhtml";
 
+let startingCapital = 10000;
 let totalTrades = 0;
 let wins = 0;
 let losses = 0;
 let brokerage = 0;
 let grossPL = 0;
 let netPL = 0;
-let totalCapital = 10000;
+let totalCapital = startingCapital;
 
 fetch(sheetURL)
   .then(res => res.text())
   .then(csv => {
+
     const rows = csv.split("\n").slice(1);
 
     rows.forEach(row => {
       const cols = row.split(",");
 
-      let plBefore = parseFloat(cols[11]); // Column L
-      let brok = parseFloat(cols[12]);     // Column M
-      let total = parseFloat(cols[13]);    // Column N
-      let capital = parseFloat(cols[15]);  // Column P
+      let plBefore = parseFloat(cols[11]);   // Column L
+      let brok = parseFloat(cols[12]);       // Column M
+      let total = parseFloat(cols[13]);      // Column N
+      let capital = parseFloat(cols[15]);    // Column P (Capital Growth)
 
       if (!isNaN(total)) {
         totalTrades++;
         netPL += total;
+
         if (total > 0) wins++;
         if (total < 0) losses++;
       }
 
       if (!isNaN(plBefore)) grossPL += plBefore;
       if (!isNaN(brok)) brokerage += brok;
-      if (!isNaN(capital)) totalCapital = capital;
+
+      if (!isNaN(capital)) {
+        totalCapital = capital;   // last capital value
+      }
     });
 
     document.getElementById("totalTrades").innerText = totalTrades;
